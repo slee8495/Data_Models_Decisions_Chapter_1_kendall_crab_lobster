@@ -1,0 +1,9 @@
+---
+title: "Decision Analysis for Kendall Crab and Lobster, Inc.: Optimizing Delivery Operations Amid Weather Uncertainty"
+author: "Sangho Lee"
+date: 2/2/2025
+callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
+editor_options: 
+  chunk_output_type: console
+---
+
