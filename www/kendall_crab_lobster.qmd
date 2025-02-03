@@ -1,9 +1,244 @@
 ---
 title: "Decision Analysis for Kendall Crab and Lobster, Inc.: Optimizing Delivery Operations Amid Weather Uncertainty"
-author: "Sangho Lee"
+output: html_document
 date: 2/2/2025
-callout-appearance: minimal # this hides the blue "i" icon on .callout-notes
-editor_options: 
-  chunk_output_type: console
 ---
+
+---
+title: "Decision Analysis for Kendall Crab and Lobster, Inc.: Optimizing Delivery Operations Amid Weather Uncertainty"
+output: html_document
+---
+
+## Introduction
+
+Kendall Crab and Lobster, Inc. (KCL), a leading seafood delivery company in Cambridge, Massachusetts, specializes in the overnight delivery of live lobsters to customers across the Northeastern United States. As the Director of Overnight Delivery Operations, **Jeff Daniels** is responsible for ensuring the smooth flow of deliveries, which is critical to KCL’s profitability and reputation.
+
+One day, Jeff faces a pressing operational dilemma: a **fall storm** is rapidly approaching Boston with a **50% chance** of shutting down **Logan International Airport** around **5 PM**. Historically, storms of this magnitude have led to immediate airport closures, causing major disruptions to KCL’s delivery operations. With only a few hours to decide, Jeff must determine the best course of action to minimize financial losses and maintain customer satisfaction.
+
+---
+
+## The Problem
+
+Jeff has **three main options** to address the potential disruption. Each option has unique **cost implications, operational risks, and probabilities** associated with the storm’s impact.
+
+### Option 1: Wait and See
+
+- **Description:**  
+  Jeff could **wait until 5 PM** to see if the storm actually shuts down Logan Airport. If the airport remains open, KCL can proceed with its **normal overnight air delivery** through United Express, maintaining standard operations without additional costs.
+  
+  However, if the storm **forces Logan to close**, Jeff would then face two sub-options:
+  1. **Cancel Orders:** Refund customers, issue **$20 discount coupons** for future purchases. This results in a **$10 per lobster** loss in profit.
+  2. **Last-Minute Reroute via MAF:** Contact **Massachusetts Air Freight (MAF)** to truck the lobsters to Worcester, MA, and fly them from there. This last-minute arrangement costs **$19 per lobster**.
+
+- **Probabilities & Costs:**
+  - **50% chance** Logan remains open → **No additional cost**.  
+  - **50% chance** Logan closes:
+    - **Cancel Orders:** **$10 loss per lobster**.  
+    - **Use MAF last-minute:** **$19 additional cost per lobster**.
+
+
+---
+
+### Option 2: Preemptively Use Massachusetts Air Freight (MAF)
+
+- **Description:**  
+  Jeff could proactively arrange to use **Massachusetts Air Freight (MAF)**. MAF would **truck the lobsters to Worcester, MA** (50 miles inland), where they would be flown to United Express's sorting facility in Washington, D.C.
+
+- **Probabilities & Costs:**
+  - **Additional Cost:**  
+    - **$13 per lobster** (if storm hits and Logan closes, about **67%** of MAF usage cases).
+    - **$19 per lobster** (if Logan remains open and MAF was unnecessarily used, about **33%** of MAF usage cases).
+  
+
+---
+
+### Option 3: Commit to Truck Delivery via Eastern Parcel Delivery (EPD)
+
+- **Description:**  
+  Jeff could arrange for **Eastern Parcel Delivery (EPD)**, a regional trucking company, to deliver lobsters **directly to customers**. To secure EPD’s services, Jeff must **commit by noon**, well before knowing if the storm will shut down Logan.
+
+- **Probabilities & Costs:**
+  - **Cost:**  
+    - EPD’s delivery is more expensive than air freight, ranging from **$2 to $4 per lobster** above the normal cost, depending on distance.
+    - Historical data shows:
+      - **50% chance** of an **additional $4 per lobster**.
+      - **25% chance** of an **additional $3 per lobster**.
+      - **25% chance** of an **additional $2 per lobster**.
+  
+
+---
+
+## Summary of Key Probabilities and Costs
+
+| **Option**                        | **Probability**                 | **Outcome**                           | **Additional Cost** | **Profit/Loss per Lobster** |
+|-----------------------------------|---------------------------------|---------------------------------------|---------------------|-----------------------------|
+| **Wait and See**                  | 50% Logan Open                  | Normal Air Delivery                   | $0                  | **$10 profit**              |
+|                                   | 50% Logan Closed                | Cancel Orders                         | $10 loss            | **-$10 loss**               |
+|                                   |                                 | Last-Minute Use of MAF                | $19                 | **-$9 loss**                |
+| **Preemptively Use MAF**          | 50% Logan Closed                | Delivery via Worcester                | $13                 | **-$3 loss**                |
+|                                   | 50% Logan Open                  | Unnecessary Use of MAF                | $19                 | **-$9 loss**                |
+| **Commit to Truck Delivery (EPD)**| 50% Chance $4 Cost              | Delivery via Truck                    | $4                  | **$6 profit**               |
+|                                   | 25% Chance $3 Cost              | Delivery via Truck                    | $3                  | **$7 profit**               |
+|                                   | 25% Chance $2 Cost              | Delivery via Truck                    | $2                  | **$8 profit**               |
+
+---
+
+## The Goal of the Analysis
+
+The objective is to **construct a decision tree** that visualizes Jeff Daniels’ options, their associated probabilities, and costs. This decision tree will allow Jeff to **quantitatively evaluate** each scenario and determine the **optimal strategy** that minimizes costs while maintaining reliable service.
+
+The analysis will:
+1. **Visualize** the decision-making process with clear pathways and outcomes.
+2. **Incorporate probabilities and costs** to evaluate the financial impact of each option.
+3. **Guide Jeff** toward a decision that balances risk and cost-effectiveness, ensuring customer satisfaction and operational continuity.
+
+By using this structured approach, Jeff can confidently present his decision to senior management, demonstrating both **analytical rigor** and a **strategic mindset** in handling operational uncertainties.
+
+---
+
+## Expected Monetary Value (EMV) Calculation
+
+### Option 1: Wait and See
+
+- **Logan Stays Open (50%)**  
+  Profit = **$10 per lobster**  
+  Probability = **50%**
+
+- **Logan Closes (50%)**  
+  - **Cancel Orders:** Loss = **$10 per lobster** (50%)  
+  - **Last-Minute MAF:** Net Loss = **$9 per lobster** (50%)
+
+**EMV Calculation:**  
+- EMV (Logan Open) = 0.5 * $10 = **$5**  
+- EMV (Logan Closes) = 0.5 * [(0.5 * -$10) + (0.5 * -$9)] = 0.5 * -$9.5 = **-$4.75**  
+
+**Total EMV (Wait and See) = $5 + (-$4.75) = $0.25 per lobster**
+
+---
+
+### Option 2: Preemptively Use MAF
+
+- **Logan Closes (50%)**  
+  Net Loss = **-$3 per lobster**  
+
+- **Logan Stays Open (50%)**  
+  Net Loss = **-$9 per lobster**
+
+**EMV Calculation:**  
+- EMV (Logan Closes) = 0.5 * -$3 = **-$1.5**  
+- EMV (Logan Stays Open) = 0.5 * -$9 = **-$4.5**  
+
+**Total EMV (Preemptively Use MAF) = -$1.5 + (-$4.5) = -$6 per lobster**
+
+---
+
+### Option 3: Commit to Truck Delivery via EPD
+
+- **$4 Additional Cost (50%)**  
+  Profit = **$6 per lobster**  
+
+- **$3 Additional Cost (25%)**  
+  Profit = **$7 per lobster**  
+
+- **$2 Additional Cost (25%)**  
+  Profit = **$8 per lobster**
+
+**EMV Calculation:**  
+- EMV ($4 Cost) = 0.5 * $6 = **$3**  
+- EMV ($3 Cost) = 0.25 * $7 = **$1.75**  
+- EMV ($2 Cost) = 0.25 * $8 = **$2**  
+
+**Total EMV (Commit to EPD) = $3 + $1.75 + $2 = $6.75 per lobster**
+
+---
+
+## Summary of EMVs
+
+| **Option**                    | **EMV per Lobster**  |
+|-------------------------------|----------------------|
+| **Wait and See**              | **$0.25**            |
+| **Preemptively Use MAF**      | **-$6**              |
+| **Commit to Truck Delivery**  | **$6.75**            |
+
+---
+
+## Conclusion
+
+Based on the EMV calculations:
+
+- **Commit to Truck Delivery via EPD** is the **optimal decision**, providing the highest expected profit of **$6.75 per lobster**.
+- **Wait and See** is marginally profitable at **$0.25 per lobster**, but it carries higher operational risks due to uncertainty.
+- **Preemptively Using MAF** results in an expected **loss of $6 per lobster**, making it the least favorable option.
+
+Thus, Jeff should **commit to truck delivery via EPD** to maximize profitability while ensuring reliable delivery.
+
+
+
+```{r}
+library(DiagrammeR)
+
+grViz("
+digraph KendallDecisionTree {
+
+  graph [rankdir = LR]
+
+  # Define node styles
+  node [fontname = Helvetica, shape = box, style=filled, color=white]
+  edge [fontname = Helvetica, color=gray]
+
+  # Define nodes with EMV values
+  Start [label = 'Start']
+  
+  WaitSee [label = 'Wait and See\\nEMV: $0.25', fillcolor=white]
+  PreemptMAF [label = 'Preemptively Use MAF\\nEMV: -$6', fillcolor=white]
+  CommitEPD [label = 'Commit to Truck Delivery via EPD\\nEMV: $6.75', penwidth=2]
+
+  # Wait and See Outcomes
+  LoganOpen [label = 'Logan Open (50%)\\n$10 Profit']
+  LoganClosed [label = 'Logan Closed (50%)']
+  
+  CancelOrders [label = 'Cancel Orders\\n$10 Loss']
+  LastMinuteMAF [label = 'Last-Minute Use of MAF\\n$19 Additional Cost']
+
+  # Preemptively Use MAF Outcomes
+  MAF_LoganClosed [label = 'Logan Closed (50%)\\n$13 Additional Cost']
+  MAF_LoganOpen [label = 'Logan Open (50%)\\n$19 Additional Cost']
+
+  # Commit to Truck Delivery via EPD Outcomes
+  Cost4 [label = '$4 Additional Cost (50%)\\n$6 Profit']
+  Cost3 [label = '$3 Additional Cost (25%)\\n$7 Profit']
+  Cost2 [label = '$2 Additional Cost (25%)\\n$8 Profit']
+
+  # Define edges with highlighting for the optimal route
+  Start -> WaitSee
+  Start -> PreemptMAF
+  Start -> CommitEPD [color=green, penwidth=2]
+
+  WaitSee -> LoganOpen
+  WaitSee -> LoganClosed
+  
+  LoganClosed -> CancelOrders
+  LoganClosed -> LastMinuteMAF
+
+  PreemptMAF -> MAF_LoganClosed
+  PreemptMAF -> MAF_LoganOpen
+
+  CommitEPD -> Cost4 [color=green, penwidth=2]
+  CommitEPD -> Cost3 [color=green, penwidth=2]
+  CommitEPD -> Cost2 [color=green, penwidth=2]
+}
+")
+
+```
+
+
+## Conclusion
+
+Based on the **Expected Monetary Value (EMV)** calculations, **committing to truck delivery via Eastern Parcel Delivery (EPD)** is the **optimal decision**. Despite higher transportation costs, this option yields the highest EMV of **$6.75 per lobster**, ensuring both profitability and operational reliability.
+
+- **Wait and See** has an EMV of **$0.25 per lobster**, indicating minimal expected gains but exposing KCL to significant risks if Logan Airport closes.
+- **Preemptively Using MAF** results in a negative EMV of **-$6 per lobster**, reflecting substantial potential losses, particularly if the storm does not impact airport operations.
+- **Committing to EPD** guarantees delivery regardless of weather conditions, maintaining customer satisfaction and offering a consistent profit margin, even in the most costly scenarios.
+
+Given these insights, Jeff should proceed with **EPD truck delivery** to secure both financial stability and customer trust, demonstrating proactive and data-driven decision-making in response to operational uncertainties.
 

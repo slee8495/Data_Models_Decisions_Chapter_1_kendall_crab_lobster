@@ -6,7 +6,6 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Sangho Lee">
 <meta name="dcterms.date" content="2025-02-02">
 
 <title>Decision Analysis for Kendall Crab and Lobster, Inc.: Optimizing Delivery Operations Amid Weather Uncertainty</title>
@@ -69,6 +68,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="kendall_crab_lobster_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="kendall_crab_lobster_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="kendall_crab_lobster_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script src="kendall_crab_lobster_files/libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="kendall_crab_lobster_files/libs/viz-1.8.2/viz.js"></script>
+<link href="kendall_crab_lobster_files/libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet">
+<script src="kendall_crab_lobster_files/libs/grViz-binding-1.0.10/grViz.js"></script>
 
 
 </head>
@@ -88,12 +91,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-title-meta">
 
-    <div>
-    <div class="quarto-title-meta-heading">Author</div>
-    <div class="quarto-title-meta-contents">
-             <p>Sangho Lee </p>
-          </div>
-  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
@@ -108,18 +105,322 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>test</p>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Kendall Crab and Lobster, Inc.&nbsp;(KCL), a leading seafood delivery company in Cambridge, Massachusetts, specializes in the overnight delivery of live lobsters to customers across the Northeastern United States. As the Director of Overnight Delivery Operations, <strong>Jeff Daniels</strong> is responsible for ensuring the smooth flow of deliveries, which is critical to KCL’s profitability and reputation.</p>
+<p>One day, Jeff faces a pressing operational dilemma: a <strong>fall storm</strong> is rapidly approaching Boston with a <strong>50% chance</strong> of shutting down <strong>Logan International Airport</strong> around <strong>5 PM</strong>. Historically, storms of this magnitude have led to immediate airport closures, causing major disruptions to KCL’s delivery operations. With only a few hours to decide, Jeff must determine the best course of action to minimize financial losses and maintain customer satisfaction.</p>
+<hr>
+</section>
+<section id="the-problem" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
+<p>Jeff has <strong>three main options</strong> to address the potential disruption. Each option has unique <strong>cost implications, operational risks, and probabilities</strong> associated with the storm’s impact.</p>
+<section id="option-1-wait-and-see" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-wait-and-see">Option 1: Wait and See</h3>
+<ul>
+<li><p><strong>Description:</strong><br>
+Jeff could <strong>wait until 5 PM</strong> to see if the storm actually shuts down Logan Airport. If the airport remains open, KCL can proceed with its <strong>normal overnight air delivery</strong> through United Express, maintaining standard operations without additional costs.</p>
+<p>However, if the storm <strong>forces Logan to close</strong>, Jeff would then face two sub-options:</p>
+<ol type="1">
+<li><strong>Cancel Orders:</strong> Refund customers, issue <strong>$20 discount coupons</strong> for future purchases. This results in a <strong>$10 per lobster</strong> loss in profit.</li>
+<li><strong>Last-Minute Reroute via MAF:</strong> Contact <strong>Massachusetts Air Freight (MAF)</strong> to truck the lobsters to Worcester, MA, and fly them from there. This last-minute arrangement costs <strong>$19 per lobster</strong>.</li>
+</ol></li>
+<li><p><strong>Probabilities &amp; Costs:</strong></p>
+<ul>
+<li><strong>50% chance</strong> Logan remains open → <strong>No additional cost</strong>.<br>
+</li>
+<li><strong>50% chance</strong> Logan closes:
+<ul>
+<li><strong>Cancel Orders:</strong> <strong>$10 loss per lobster</strong>.<br>
+</li>
+<li><strong>Use MAF last-minute:</strong> <strong>$19 additional cost per lobster</strong>.</li>
+</ul></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="option-2-preemptively-use-massachusetts-air-freight-maf" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-preemptively-use-massachusetts-air-freight-maf">Option 2: Preemptively Use Massachusetts Air Freight (MAF)</h3>
+<ul>
+<li><p><strong>Description:</strong><br>
+Jeff could proactively arrange to use <strong>Massachusetts Air Freight (MAF)</strong>. MAF would <strong>truck the lobsters to Worcester, MA</strong> (50 miles inland), where they would be flown to United Express’s sorting facility in Washington, D.C.</p></li>
+<li><p><strong>Probabilities &amp; Costs:</strong></p>
+<ul>
+<li><strong>Additional Cost:</strong>
+<ul>
+<li><strong>$13 per lobster</strong> (if storm hits and Logan closes, about <strong>67%</strong> of MAF usage cases).</li>
+<li><strong>$19 per lobster</strong> (if Logan remains open and MAF was unnecessarily used, about <strong>33%</strong> of MAF usage cases).</li>
+</ul></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+<section id="option-3-commit-to-truck-delivery-via-eastern-parcel-delivery-epd" class="level3">
+<h3 class="anchored" data-anchor-id="option-3-commit-to-truck-delivery-via-eastern-parcel-delivery-epd">Option 3: Commit to Truck Delivery via Eastern Parcel Delivery (EPD)</h3>
+<ul>
+<li><p><strong>Description:</strong><br>
+Jeff could arrange for <strong>Eastern Parcel Delivery (EPD)</strong>, a regional trucking company, to deliver lobsters <strong>directly to customers</strong>. To secure EPD’s services, Jeff must <strong>commit by noon</strong>, well before knowing if the storm will shut down Logan.</p></li>
+<li><p><strong>Probabilities &amp; Costs:</strong></p>
+<ul>
+<li><strong>Cost:</strong>
+<ul>
+<li>EPD’s delivery is more expensive than air freight, ranging from <strong>$2 to $4 per lobster</strong> above the normal cost, depending on distance.</li>
+<li>Historical data shows:
+<ul>
+<li><strong>50% chance</strong> of an <strong>additional $4 per lobster</strong>.</li>
+<li><strong>25% chance</strong> of an <strong>additional $3 per lobster</strong>.</li>
+<li><strong>25% chance</strong> of an <strong>additional $2 per lobster</strong>.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="summary-of-key-probabilities-and-costs" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-key-probabilities-and-costs">Summary of Key Probabilities and Costs</h2>
+<table class="table">
+<colgroup>
+<col style="width: 22%">
+<col style="width: 21%">
+<col style="width: 24%">
+<col style="width: 13%">
+<col style="width: 18%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>Probability</strong></th>
+<th><strong>Outcome</strong></th>
+<th><strong>Additional Cost</strong></th>
+<th><strong>Profit/Loss per Lobster</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Wait and See</strong></td>
+<td>50% Logan Open</td>
+<td>Normal Air Delivery</td>
+<td>$0</td>
+<td><strong>$10 profit</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>50% Logan Closed</td>
+<td>Cancel Orders</td>
+<td>$10 loss</td>
+<td><strong>-$10 loss</strong></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td>Last-Minute Use of MAF</td>
+<td>$19</td>
+<td><strong>-$9 loss</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Preemptively Use MAF</strong></td>
+<td>50% Logan Closed</td>
+<td>Delivery via Worcester</td>
+<td>$13</td>
+<td><strong>-$3 loss</strong></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>50% Logan Open</td>
+<td>Unnecessary Use of MAF</td>
+<td>$19</td>
+<td><strong>-$9 loss</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Commit to Truck Delivery (EPD)</strong></td>
+<td>50% Chance $4 Cost</td>
+<td>Delivery via Truck</td>
+<td>$4</td>
+<td><strong>$6 profit</strong></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>25% Chance $3 Cost</td>
+<td>Delivery via Truck</td>
+<td>$3</td>
+<td><strong>$7 profit</strong></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>25% Chance $2 Cost</td>
+<td>Delivery via Truck</td>
+<td>$2</td>
+<td><strong>$8 profit</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="the-goal-of-the-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="the-goal-of-the-analysis">The Goal of the Analysis</h2>
+<p>The objective is to <strong>construct a decision tree</strong> that visualizes Jeff Daniels’ options, their associated probabilities, and costs. This decision tree will allow Jeff to <strong>quantitatively evaluate</strong> each scenario and determine the <strong>optimal strategy</strong> that minimizes costs while maintaining reliable service.</p>
+<p>The analysis will: 1. <strong>Visualize</strong> the decision-making process with clear pathways and outcomes. 2. <strong>Incorporate probabilities and costs</strong> to evaluate the financial impact of each option. 3. <strong>Guide Jeff</strong> toward a decision that balances risk and cost-effectiveness, ensuring customer satisfaction and operational continuity.</p>
+<p>By using this structured approach, Jeff can confidently present his decision to senior management, demonstrating both <strong>analytical rigor</strong> and a <strong>strategic mindset</strong> in handling operational uncertainties.</p>
+<hr>
+</section>
+<section id="expected-monetary-value-emv-calculation" class="level2">
+<h2 class="anchored" data-anchor-id="expected-monetary-value-emv-calculation">Expected Monetary Value (EMV) Calculation</h2>
+<section id="option-1-wait-and-see-1" class="level3">
+<h3 class="anchored" data-anchor-id="option-1-wait-and-see-1">Option 1: Wait and See</h3>
+<ul>
+<li><p><strong>Logan Stays Open (50%)</strong><br>
+Profit = <strong>$10 per lobster</strong><br>
+Probability = <strong>50%</strong></p></li>
+<li><p><strong>Logan Closes (50%)</strong></p>
+<ul>
+<li><strong>Cancel Orders:</strong> Loss = <strong>$10 per lobster</strong> (50%)<br>
+</li>
+<li><strong>Last-Minute MAF:</strong> Net Loss = <strong>$9 per lobster</strong> (50%)</li>
+</ul></li>
+</ul>
+<p><strong>EMV Calculation:</strong><br>
+- EMV (Logan Open) = 0.5 * $10 = <strong>$5</strong><br>
+- EMV (Logan Closes) = 0.5 * [(0.5 * -$10) + (0.5 * -$9)] = 0.5 * -$9.5 = <strong>-$4.75</strong></p>
+<p><strong>Total EMV (Wait and See) = $5 + (-$4.75) = $0.25 per lobster</strong></p>
+<hr>
+</section>
+<section id="option-2-preemptively-use-maf" class="level3">
+<h3 class="anchored" data-anchor-id="option-2-preemptively-use-maf">Option 2: Preemptively Use MAF</h3>
+<ul>
+<li><p><strong>Logan Closes (50%)</strong><br>
+Net Loss = <strong>-$3 per lobster</strong></p></li>
+<li><p><strong>Logan Stays Open (50%)</strong><br>
+Net Loss = <strong>-$9 per lobster</strong></p></li>
+</ul>
+<p><strong>EMV Calculation:</strong><br>
+- EMV (Logan Closes) = 0.5 * -$3 = <strong>-$1.5</strong><br>
+- EMV (Logan Stays Open) = 0.5 * -$9 = <strong>-$4.5</strong></p>
+<p><strong>Total EMV (Preemptively Use MAF) = -$1.5 + (-$4.5) = -$6 per lobster</strong></p>
+<hr>
+</section>
+<section id="option-3-commit-to-truck-delivery-via-epd" class="level3">
+<h3 class="anchored" data-anchor-id="option-3-commit-to-truck-delivery-via-epd">Option 3: Commit to Truck Delivery via EPD</h3>
+<ul>
+<li><p><strong>$4 Additional Cost (50%)</strong><br>
+Profit = <strong>$6 per lobster</strong></p></li>
+<li><p><strong>$3 Additional Cost (25%)</strong><br>
+Profit = <strong>$7 per lobster</strong></p></li>
+<li><p><strong>$2 Additional Cost (25%)</strong><br>
+Profit = <strong>$8 per lobster</strong></p></li>
+</ul>
+<p><strong>EMV Calculation:</strong><br>
+- EMV ($4 Cost) = 0.5 * $6 = <strong>$3</strong><br>
+- EMV ($3 Cost) = 0.25 * $7 = <strong>$1.75</strong><br>
+- EMV ($2 Cost) = 0.25 * $8 = <strong>$2</strong></p>
+<p><strong>Total EMV (Commit to EPD) = $3 + $1.75 + $2 = $6.75 per lobster</strong></p>
+<hr>
+</section>
+</section>
+<section id="summary-of-emvs" class="level2">
+<h2 class="anchored" data-anchor-id="summary-of-emvs">Summary of EMVs</h2>
+<table class="table">
+<thead>
+<tr class="header">
+<th><strong>Option</strong></th>
+<th><strong>EMV per Lobster</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Wait and See</strong></td>
+<td><strong>$0.25</strong></td>
+</tr>
+<tr class="even">
+<td><strong>Preemptively Use MAF</strong></td>
+<td><strong>-$6</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>Commit to Truck Delivery</strong></td>
+<td><strong>$6.75</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Based on the EMV calculations:</p>
+<ul>
+<li><strong>Commit to Truck Delivery via EPD</strong> is the <strong>optimal decision</strong>, providing the highest expected profit of <strong>$6.75 per lobster</strong>.</li>
+<li><strong>Wait and See</strong> is marginally profitable at <strong>$0.25 per lobster</strong>, but it carries higher operational risks due to uncertainty.</li>
+<li><strong>Preemptively Using MAF</strong> results in an expected <strong>loss of $6 per lobster</strong>, making it the least favorable option.</li>
+</ul>
+<p>Thus, Jeff should <strong>commit to truck delivery via EPD</strong> to maximize profitability while ensuring reliable delivery.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">=</span> <span class="dv">1</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>b <span class="ot">=</span> <span class="dv">2</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>c <span class="ot">=</span> a <span class="sc">*</span> b</span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">grViz</span>(<span class="st">"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="st">digraph KendallDecisionTree {</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>[1] 2</code></pre>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">  graph [rankdir = LR]</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">  # Define node styles</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">  node [fontname = Helvetica, shape = box, style=filled, color=white]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">  edge [fontname = Helvetica, color=gray]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">  # Define nodes with EMV values</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">  Start [label = 'Start']</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="st">  WaitSee [label = 'Wait and See</span><span class="sc">\\</span><span class="st">nEMV: $0.25', fillcolor=white]</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="st">  PreemptMAF [label = 'Preemptively Use MAF</span><span class="sc">\\</span><span class="st">nEMV: -$6', fillcolor=white]</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="st">  CommitEPD [label = 'Commit to Truck Delivery via EPD</span><span class="sc">\\</span><span class="st">nEMV: $6.75', penwidth=2]</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="st">  # Wait and See Outcomes</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="st">  LoganOpen [label = 'Logan Open (50%)</span><span class="sc">\\</span><span class="st">n$10 Profit']</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="st">  LoganClosed [label = 'Logan Closed (50%)']</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="st">  CancelOrders [label = 'Cancel Orders</span><span class="sc">\\</span><span class="st">n$10 Loss']</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="st">  LastMinuteMAF [label = 'Last-Minute Use of MAF</span><span class="sc">\\</span><span class="st">n$19 Additional Cost']</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">  # Preemptively Use MAF Outcomes</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">  MAF_LoganClosed [label = 'Logan Closed (50%)</span><span class="sc">\\</span><span class="st">n$13 Additional Cost']</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">  MAF_LoganOpen [label = 'Logan Open (50%)</span><span class="sc">\\</span><span class="st">n$19 Additional Cost']</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">  # Commit to Truck Delivery via EPD Outcomes</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">  Cost4 [label = '$4 Additional Cost (50%)</span><span class="sc">\\</span><span class="st">n$6 Profit']</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">  Cost3 [label = '$3 Additional Cost (25%)</span><span class="sc">\\</span><span class="st">n$7 Profit']</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">  Cost2 [label = '$2 Additional Cost (25%)</span><span class="sc">\\</span><span class="st">n$8 Profit']</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">  # Define edges with highlighting for the optimal route</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="st">  Start -&gt; WaitSee</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="st">  Start -&gt; PreemptMAF</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="st">  Start -&gt; CommitEPD [color=green, penwidth=2]</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="st">  WaitSee -&gt; LoganOpen</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="st">  WaitSee -&gt; LoganClosed</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="st">  LoganClosed -&gt; CancelOrders</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="st">  LoganClosed -&gt; LastMinuteMAF</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="st">  PreemptMAF -&gt; MAF_LoganClosed</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="st">  PreemptMAF -&gt; MAF_LoganOpen</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="st">  CommitEPD -&gt; Cost4 [color=green, penwidth=2]</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="st">  CommitEPD -&gt; Cost3 [color=green, penwidth=2]</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="st">  CommitEPD -&gt; Cost2 [color=green, penwidth=2]</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="st">}</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="grViz html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-29dde25ee6a0acb053cd" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-29dde25ee6a0acb053cd">{"x":{"diagram":"\ndigraph KendallDecisionTree {\n\n  graph [rankdir = LR]\n\n  # Define node styles\n  node [fontname = Helvetica, shape = box, style=filled, color=white]\n  edge [fontname = Helvetica, color=gray]\n\n  # Define nodes with EMV values\n  Start [label = \"Start\"]\n  \n  WaitSee [label = \"Wait and See\\nEMV: $0.25\", fillcolor=white]\n  PreemptMAF [label = \"Preemptively Use MAF\\nEMV: -$6\", fillcolor=white]\n  CommitEPD [label = \"Commit to Truck Delivery via EPD\\nEMV: $6.75\", penwidth=2]\n\n  # Wait and See Outcomes\n  LoganOpen [label = \"Logan Open (50%)\\n$10 Profit\"]\n  LoganClosed [label = \"Logan Closed (50%)\"]\n  \n  CancelOrders [label = \"Cancel Orders\\n$10 Loss\"]\n  LastMinuteMAF [label = \"Last-Minute Use of MAF\\n$19 Additional Cost\"]\n\n  # Preemptively Use MAF Outcomes\n  MAF_LoganClosed [label = \"Logan Closed (50%)\\n$13 Additional Cost\"]\n  MAF_LoganOpen [label = \"Logan Open (50%)\\n$19 Additional Cost\"]\n\n  # Commit to Truck Delivery via EPD Outcomes\n  Cost4 [label = \"$4 Additional Cost (50%)\\n$6 Profit\"]\n  Cost3 [label = \"$3 Additional Cost (25%)\\n$7 Profit\"]\n  Cost2 [label = \"$2 Additional Cost (25%)\\n$8 Profit\"]\n\n  # Define edges with highlighting for the optimal route\n  Start -> WaitSee\n  Start -> PreemptMAF\n  Start -> CommitEPD [color=green, penwidth=2]\n\n  WaitSee -> LoganOpen\n  WaitSee -> LoganClosed\n  \n  LoganClosed -> CancelOrders\n  LoganClosed -> LastMinuteMAF\n\n  PreemptMAF -> MAF_LoganClosed\n  PreemptMAF -> MAF_LoganOpen\n\n  CommitEPD -> Cost4 [color=green, penwidth=2]\n  CommitEPD -> Cost3 [color=green, penwidth=2]\n  CommitEPD -> Cost2 [color=green, penwidth=2]\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
+</section>
+<section id="conclusion-1" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-1">Conclusion</h2>
+<p>Based on the <strong>Expected Monetary Value (EMV)</strong> calculations, <strong>committing to truck delivery via Eastern Parcel Delivery (EPD)</strong> is the <strong>optimal decision</strong>. Despite higher transportation costs, this option yields the highest EMV of <strong>$6.75 per lobster</strong>, ensuring both profitability and operational reliability.</p>
+<ul>
+<li><strong>Wait and See</strong> has an EMV of <strong>$0.25 per lobster</strong>, indicating minimal expected gains but exposing KCL to significant risks if Logan Airport closes.</li>
+<li><strong>Preemptively Using MAF</strong> results in a negative EMV of <strong>-$6 per lobster</strong>, reflecting substantial potential losses, particularly if the storm does not impact airport operations.</li>
+<li><strong>Committing to EPD</strong> guarantees delivery regardless of weather conditions, maintaining customer satisfaction and offering a consistent profit margin, even in the most costly scenarios.</li>
+</ul>
+<p>Given these insights, Jeff should proceed with <strong>EPD truck delivery</strong> to secure both financial stability and customer trust, demonstrating proactive and data-driven decision-making in response to operational uncertainties.</p>
+</section>
 
 </main>
 <!-- /main column -->
